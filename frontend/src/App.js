@@ -24,10 +24,9 @@ class App extends Component {
     this.refreshList();
   }
   refreshList = () => {
-    axios
+    return axios
       .get("http://localhost:8000/api/todos/")
       .then((res) => {
-        console.log("Res ->>", res);
         this.setState({ todoList: res.data });
       })
       .catch((err) => console.log(err));
@@ -68,23 +67,20 @@ class App extends Component {
       </div>
     );
   };
+
   renderItems = () => {
-    const { viewCompleted, allTask, activeView, todoList } = this.state;
-    console.log("all todoList", todoList);
+    const { activeView, todoList } = this.state;
     let newItems = [];
     if (activeView === 0) {
       newItems = [...this.state.todoList];
-      return newItems;
     }
 
     if (activeView === 1) {
       newItems = todoList.filter((todo) => todo.completed === true);
-      return newItems;
     }
 
     if (activeView === 2) {
       newItems = todoList.filter((todo) => todo.completed === false);
-      return newItems;
     }
 
     return newItems.map((item) => (
@@ -118,6 +114,7 @@ class App extends Component {
       </li>
     ));
   };
+
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
